@@ -8,55 +8,86 @@ using OpenQA.Selenium.Appium.Enums;
 using OpenQA.Selenium.Appium.MultiTouch;
 using System.Threading;
 using GmailMobileTesting.Tests;
+using GmailMobileTesting.PageObjects;
 
 namespace GmailMobileTesting
 {
     public class CheckSentLettersCount : BaseTest
     {
-
-
+        private readonly int timeoutInSeconds = 100;
+        private readonly string adress = "wirtandrew49@gmail.com";
+        private readonly string subject = "mobile";
 
         [Test]
-        public void CheckSentLetterCount()
+        public void Check()
         {
-            var gotitButton = Driver.FindElementById("welcome_tour_got_it");
-            gotitButton.Click();
-            var goToGmail = Driver.FindElementById("action_done");
-            goToGmail.Click();
+            PageFactoryManager pageFactoryManager = new PageFactoryManager(Driver);
+            HomePage homePage = pageFactoryManager.GetHomePage(Driver);
+            MessegePage messegePage = pageFactoryManager.GetMessegePage(Driver);
+            SentMessegesPage sentMessegesPage = pageFactoryManager.GetSentMessegesPage(Driver);
+            StartPage startPage = pageFactoryManager.GetStartPage(Driver);
+            TakeToGmailPage takeToGmailPage = pageFactoryManager.GetTakeToGmailPage(Driver);
 
-            var dismissButton = Driver.FindElementById("gm_dismiss_button");
-            dismissButton.Click();
+            startPage.ClickGotIt(timeoutInSeconds);
 
-            var dismissButton2 = Driver.FindElementById("gm_dismiss_button");
-            dismissButton2.Click();
+            takeToGmailPage.ClickTakeMeTo(timeoutInSeconds);
 
+            homePage.ClickDismiss(timeoutInSeconds);
+            homePage.ClickDismiss(timeoutInSeconds);
+            homePage.ClickCompose(timeoutInSeconds);
 
-            var composeButton = Driver.FindElementById("compose_button");
-            composeButton.Click();
+            messegePage.InputAdress(adress);
+            messegePage.InputSubject(subject);
+            messegePage.ClickSendMessege(timeoutInSeconds);
 
-            Driver.HideKeyboard();
-            var adressLetter = Driver.FindElementById("to");
-            adressLetter.SendKeys("wirtandrew49@gmail.com");
-            Driver.HideKeyboard();
-            var subject = Driver.FindElementById("subject");
-            subject.Click();
-            subject.SendKeys("mobile");
+            homePage.ClickToolBar();
+            homePage.ClickSent(timeoutInSeconds);
 
-
-
-            var sendButton = Driver.FindElementById("send");
-            sendButton.Click();
-
-            var toolBarButton = Driver.FindElementByXPath("//android.widget.ImageButton[@content-desc='Open navigation drawer']");
-            toolBarButton.Click();
-
-            var pathSent = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout[2]/android.widget.ListView/android.widget.LinearLayout[9]/android.widget.ImageView";
-            var sent = Driver.FindElementByXPath(pathSent);
-            sent.Click();
-
-            var path = "//android.view.View[@content-desc='Select this conversation']";
-            int sentLettersCount = Driver.FindElementsByXPath(path).Count;
-            Assert.AreEqual(1, sentLettersCount);
+            int sentMessegesCount = sentMessegesPage.GetSentMessegesCount();
+            Assert.AreEqual(1, sentMessegesCount);
         }
+
+        //[Test]
+        //public void CheckSentLetterCount()
+        //{
+        //    var gotitButton = Driver.FindElementById("welcome_tour_got_it");
+        //    gotitButton.Click();
+        //    var goToGmail = Driver.FindElementById("action_done");
+        //    goToGmail.Click();
+
+        //    var dismissButton = Driver.FindElementById("gm_dismiss_button");
+        //    dismissButton.Click();
+
+        //    var dismissButton2 = Driver.FindElementById("gm_dismiss_button");
+        //    dismissButton2.Click();
+
+
+        //    var composeButton = Driver.FindElementById("compose_button");
+        //    composeButton.Click();
+
+        //    Driver.HideKeyboard();
+        //    var adressLetter = Driver.FindElementById("to");
+        //    adressLetter.SendKeys("wirtandrew49@gmail.com");
+        //    Driver.HideKeyboard();
+        //    var subject = Driver.FindElementById("subject");
+        //    subject.Click();
+        //    subject.SendKeys("mobile");
+
+
+
+        //    var sendButton = Driver.FindElementById("send");
+        //    sendButton.Click();
+
+        //    var toolBarButton = Driver.FindElementByXPath("//android.widget.ImageButton[@content-desc='Open navigation drawer']");
+        //    toolBarButton.Click();
+
+        //    var pathSent = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.support.v4.widget.DrawerLayout/android.widget.FrameLayout[2]/android.widget.ListView/android.widget.LinearLayout[9]/android.widget.ImageView";
+        //    var sent = Driver.FindElementByXPath(pathSent);
+        //    sent.Click();
+
+        //    var path = "//android.view.View[@content-desc='Select this conversation']";
+        //    int sentLettersCount = Driver.FindElementsByXPath(path).Count;
+        //    Assert.AreEqual(1, sentLettersCount);
+        //}
     }
 }

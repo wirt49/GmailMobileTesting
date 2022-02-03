@@ -7,11 +7,21 @@ using System;
 using OpenQA.Selenium.Appium.Enums;
 using OpenQA.Selenium.Appium.MultiTouch;
 using System.Threading;
-
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace GmailMobileTesting.PageObjects
 {
-    class TakeToGmailPage
+    public class TakeToGmailPage: BasePage
     {
+        public TakeToGmailPage(AppiumDriver<AndroidElement> driver) : base(driver) { }
+
+        [FindsBy(How = How.Id, Using = "action_done")]
+        private readonly AndroidElement takeMeToGmailButton;
+
+        public void ClickTakeMeTo(int timeOut)
+        {
+            WaitVisibilityOfElement(timeOut, takeMeToGmailButton);
+            takeMeToGmailButton.Click();
+        }
     }
 }

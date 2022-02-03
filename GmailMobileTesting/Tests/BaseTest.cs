@@ -33,7 +33,7 @@ namespace GmailMobileTesting.Tests
             cap.AddAdditionalCapability(MobileCapabilityType.Udid, "emulator-5554");
             cap.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, "com.google.android.gm.GmailActivity");
             cap.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, "com.google.android.gm");
-            driver = new AndroidDriver<AndroidElement>(new Uri("http://localhost:4724/wd/hub"), cap);
+            driver = new AndroidDriver<AndroidElement>(new Uri("http://localhost:4723/wd/hub"), cap);
 
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(60);
         }
