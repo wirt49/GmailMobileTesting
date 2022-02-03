@@ -32,8 +32,15 @@ namespace GmailMobileTesting
 
             takeToGmailPage.ClickTakeMeTo(timeoutInSeconds);
 
+
+
             homePage.ClickDismiss(timeoutInSeconds);
             homePage.ClickDismiss(timeoutInSeconds);
+
+            homePage.ClickToolBar();
+            homePage.ClickSent(timeoutInSeconds);
+
+            int sentMessegesCount = sentMessegesPage.GetSentMessegesCount();
             homePage.ClickCompose(timeoutInSeconds);
 
             messegePage.InputAdress(adress);
@@ -42,9 +49,9 @@ namespace GmailMobileTesting
 
             homePage.ClickToolBar();
             homePage.ClickSent(timeoutInSeconds);
+            int sentCountAfter = sentMessegesPage.GetSentMessegesCount();
 
-            int sentMessegesCount = sentMessegesPage.GetSentMessegesCount();
-            Assert.AreEqual(1, sentMessegesCount);
+            Assert.AreEqual(sentCountAfter, sentMessegesCount + 1);
         }
 
         //[Test]
